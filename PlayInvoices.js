@@ -10,10 +10,7 @@ function Statement(invoice, plays)
 
     for(let perf of invoice.performances)
     {
-        volumeCredits += Math.max(perf.audience - 30, 0);
-        if("comedy" == Playfor(perf).type)
-            volumeCredits += Math.floor(perf.audience / 5);
-
+        volumeCredits += VolumeCreditsFor(perf);
         result += `${Playfor(perf).name}: ${format(AmountFor(perf)/100)} (${perf.audience}석)\n`;
         totalAmount += AmountFor(perf);
     }
@@ -50,6 +47,15 @@ function AmountFor(aPerformance)
 function Playfor(aPerformance)
 {
     return plays[aPerformance.playID];
+}
+
+function VolumeCreditsFor(aPerformance)
+{
+    let result = 0;
+    result += Math.max(aPerformance.audience - 30, 0);
+    if("comedy" == Playfor(aPerformance).type)
+    result += Math.floor(aPerformance.audience / 5);
+    return result;
 }
 
 console.log(Statement(invoice, plays));
