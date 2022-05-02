@@ -4,18 +4,15 @@ import plays from "./plays.json" assert { type: "json" };
 function Statement(invoice, plays)
 {
     let totalAmount = 0;
-    let volumeCredits = 0;
     let result = `청구 내역(고객명: ${invoice.customer})\n`;
 
     for(let perf of invoice.performances)
     {
-        volumeCredits += VolumeCreditsFor(perf);
         result += `${Playfor(perf).name}: ${USD(AmountFor(perf))} (${perf.audience}석)\n`;
         totalAmount += AmountFor(perf);
     }
-
     result += `총액: ${USD(totalAmount)}\n`;
-    result += `적립 포인트: ${volumeCredits}점\n`;
+    result += `적립 포인트: ${TotalVolumeCredits()}점\n`;
     return result;
 }
 
@@ -60,6 +57,14 @@ function VolumeCreditsFor(aPerformance)
 function USD(aNumber)
 {
     return new Intl.NumberFormat("en-UI", {style:"currency", currency:"USD", minimumFractionDigits:2}).format(aNumber/100);
+}
+
+function TotalVolumeCredits()
+{
+    let volumeCredits = 0;
+    for(let perf of invoice.performances)
+        volumeCredits += VolumeCreditsFor(perf);
+    return volumeCredits;
 }
 
 console.log(Statement(invoice, plays));
