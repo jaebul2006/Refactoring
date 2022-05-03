@@ -2,21 +2,21 @@ import invoice from "./invoices.json" assert { type: "json" };
 import plays from "./plays.json" assert { type: "json" };
 import CreateStatementData from "./CreateStatementData.js";
 
-// function Statement(invoice, plays)
-// {
-//     return RenderPlainText(CreateStatementData(invoice, plays));
-// }
+function Statement(invoice, plays)
+{
+    return RenderPlainText(CreateStatementData(invoice, plays));
+}
 
-// function RenderPlainText(data, plays)
-// {
-//     let result = `청구 내역(고객명: ${data.customer})\n`;
-//     for(let perf of data.performances)
-//         result += `${perf.play.name}: ${USD(perf.amount)} (${perf.audience}석)\n`;
+function RenderPlainText(data, plays)
+{
+    let result = `청구 내역(고객명: ${data.customer})\n`;
+    for(let perf of data.performances)
+        result += `${perf.play.name}: ${USD(perf.amount)} (${perf.audience}석)\n`;
     
-//     result += `총액: ${USD(data.totalAmount)}\n`;
-//     result += `적립 포인트: ${data.TotalVolumeCredits}점\n`;
-//     return result;
-// }
+    result += `총액: ${USD(data.totalAmount)}\n`;
+    result += `적립 포인트: ${data.TotalVolumeCredits}점\n`;
+    return result;
+}
 
 function HtmlStatement(invoice, plays)
 {
